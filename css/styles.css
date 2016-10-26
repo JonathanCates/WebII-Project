@@ -1,0 +1,72 @@
+.ui.segment.grey100 {
+    background-color: #F5F5F5;
+    margin: 0 0 10px 0;
+    box-shadow: none;
+    border: none;
+}
+
+.hero-container {
+	min-height: 400px;
+	background-image: url(../images/hero1.jpg);
+	background-repeat: no-repeat;
+	background-size: 1700px 900px;
+	background-position: center top;
+	background-size:100%;
+    
+    display: flex;
+    align-items: center;
+}
+
+.ui.bottom.attached.button{
+	margin-top:-15px;
+}
+
+.genre-banner{
+	min-height: 150px;
+	background-image: url(../images/banner1.jpg);
+	background-repeat:no-repeat;
+	background-size: 4100px 450px;
+	background-position: left top;
+    
+    display: flex;
+	padding-left:12em;
+	padding-top:2em;
+}
+
+.ui.fluid.image{
+	padding:0 0 0 0;
+	margin:0 0 0 0;
+}
+
+.ui.stackable.six.column.grid{
+	margin-left:5em;
+	margin-right:5em;
+	margin-top:1em;
+}
+
+.ui.stackable.three.column.grid{
+	margin-left:5em;
+	margin-right:5em;
+}
+
+.ui.segment.noimgpad{
+	padding:0;
+}
+
+.ui.segment.noimgpad h3{
+	padding: 1em;
+	padding-top:0;
+}
+
+.ui.segment.noimgpad h4{
+	padding: 1em;
+	padding-top:0;
+}
+
+.ui.secondary.segment{
+	margin-top:0;
+}
+
+.ui.secondary.segment p{
+	margin-bottom:1.5em;
+}
