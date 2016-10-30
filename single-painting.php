@@ -103,7 +103,7 @@
 		$imageFileName = $row['ImageFileName'];
 		$title = $row['Title'];
 		$excerpt = $row['Excerpt'];
-		$museum = $row['GalleryID'];
+		$museum = $row['GalleryName'];
 		$museumLink = $row['MuseumLink'];
 		$copyright = $row['CopyrightText'];
 		$description = $row['Description'];

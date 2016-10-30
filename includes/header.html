@@ -49,10 +49,14 @@
               </div>
             </div>        
             <div class="right item">
-                <div class="ui mini icon input">
-                  <input type="text" placeholder="Search ...">
-                  <i class="search icon"></i>
-                </div>
+				<div class="ui action input">
+					<form method="GET" action="browse-paintings.php">
+						<input placeholder="Search..." type="text" name="searchBy">
+						<button class="ui icon button" type="submit">
+							<i class="search icon"></i>
+						</button>
+					</form>
+				</div>
             </div>      
 
         </div>

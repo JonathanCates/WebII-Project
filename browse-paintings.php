@@ -72,7 +72,15 @@
 	function printPaintings()
 	{	
 		echo'<h2 class="ui sub header">';	
-		if(isset($_GET['artist']))
+		if(isset($_GET['searchBy']))
+		{
+			$searchBy = $_GET['searchBy'];
+			$sql = filterBySearch($searchBy);
+			$pdo = getPDO($sql);
+			$row = getNext($pdo);
+			echo'Searched for titles and descriptions containing: '.$searchBy;		
+		}
+		else if(isset($_GET['artist']))
 		{
 			$artistID = $_GET['artist'];
 			$museumID = $_GET['museum'];
@@ -124,16 +132,22 @@
 				echo'Artist = '.$row['FirstName'].' '.$row['LastName'].' | ';	
 				echo'Museum = '.$row['GalleryName'];
 			}
+			else if($artistID == 0 && $museumID == 0 && $shapeID == 0) //if user pressed filter with no values set
+			{
+				$sql=filterByNothing();
+				$pdo = getPDO($sql);
+				$row = getNext($pdo);
+				echo'ALL PAINTINGS [TOP 20]';
+			}
 			else
 			{
-				$sql=filterByArtistMuseumShape($aid,$mid,$sid); //filter by all		
+				$sql=filterByArtistMuseumShape($aritstID,$museumID,$shapeID); //filter by all		
 				$pdo = getPDO($sql);
 				$row = getNext($pdo);
 				echo'Artist = '.$row['FirstName'].' '.$row['LastName'].' | ';	
 				echo'Museum = '.$row['GalleryName'].' | ';
 				echo'Shape = '.$row['ShapeName'];
 			}
-			
 		}
 		else
 		{

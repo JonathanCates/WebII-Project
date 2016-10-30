@@ -1,7 +1,7 @@
 <?php 
 	function fetchPainting($id)
 	{
-		return "SELECT * FROM Paintings WHERE PaintingID = $id";
+		return "SELECT * FROM Paintings INNER JOIN Galleries on Paintings.GalleryID = Galleries.GalleryID WHERE PaintingID = $id";
 	}
 	
 	function fetchPaintingCost($id)
@@ -151,5 +151,16 @@
 	function filterByNothing()
 	{
 		return "SELECT * FROM Paintings INNER JOIN Artists on Paintings.ArtistID = Artists.ArtistID ORDER BY YearOfWork";
+	}
+	
+	function filterBySearch($searchBy)
+	{
+		return "SELECT * FROM Paintings 
+					INNER JOIN Artists on Paintings.ArtistID = Artists.ArtistID
+					WHERE Title
+					LIKE '%{$searchBy}%' 
+					OR Description
+					LIKE '%{$searchBy}%'
+					ORDER BY YearOfWork";
 	}
 ?>
