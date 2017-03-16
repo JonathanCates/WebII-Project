@@ -13,12 +13,56 @@
     <link href="css/icon.css" rel="stylesheet" >
     <link href="css/styles.css" rel="stylesheet">
     
-    
-    
 </head>
-<body >
+<body>
     
-<?php include "includes/header.html"; ?>
+<?php
+	include_once "includes/favorite-artists.php";
+	include_once "includes/favorite-paintings.php";
+	include_once "includes/cart-class.php";
+	
+	session_start();
+	
+	if(!isset($_SESSION['favArtists']))
+	{
+		$_SESSION['favArtists'] = serialize(new favArtists());
+	}
+	if(!isset($_SESSION['favPaintings']))
+	{
+		$_SESSION['favPaintings'] = serialize(new favPaintings());
+	}
+	if(!isset($_SESSION['cart']))
+	{
+		$_SESSION['cart'] = serialize(new shoppingCart());
+	}
+	
+	include "includes/header.php"; 
+	
+	if(isset($_POST['frame0']))// check if a value exists in the post, meaning there's been an update to the cart
+	{
+		$cartObject = unserialize($_SESSION['cart']);
+		$cart = $cartObject->getList();
+		
+		for($i = 0; $i < count($cart); $i++)
+		{
+			if($_POST['quantity'.$i] <= 0)
+			{
+				$cartObject->remove($cart[$i], true);
+			}
+			else 
+			{
+			$newValues = array(
+				'frame' => $_POST['frame'.$i], 
+				'glass' => $_POST['glass'.$i], 
+				'matt' => $_POST['matt'.$i], 
+				'quantity' => $_POST['quantity'.$i]);
+				
+				$cartObject->updateCart($newValues, $cart[$i], $i);
+			}
+		}
+		$_SESSION['cart'] = serialize($cartObject);
+	}
+?>
  
 <div class="hero-container">
     <div class="ui text container">
@@ -29,37 +73,57 @@
 <h2 class="ui horizontal divider"><i class="tag icon"></i> Deals</h2>   
     
 <main>
-	<div class="ui stackable three column grid">
-		<div class ="column">
-            <div class="ui segment noimgpad">
-				<img class = "ui fluid image" src="images/art/works/medium/107050.jpg">
-				<h4>Experience the sensuous pleasures of the French Rococco</h4>
+	<div class="ui container">
+		<div class ="ui three cards">
+			<div class="card">
+				<div class="image">
+					<img src="images/art/works/medium/107050.jpg">
+				</div>
+				<div class="content">
+					<div class="description">
+						Experience the sensuous pleasures of the French Rococco
+					</div>
+				</div>
+				<div class="ui bottom attached button">
+					<a href="single-genre.php?id=83">
+						<i class="info circle icon large"></i>
+						See More
+					</a>
+				</div>
 			</div>
-			<div class="ui bottom attached button">
-				<a href="single-genre.php?id=83"><i class="info circle icon"></i>See More</a>
+			<div class="card">
+				<div class="image">
+					<img class="ui medium image" src="images/art/works/medium/126010.jpg">
+				</div>
+				<div class="content">
+					<div class="description">
+						Appeciate the quiet beauty of the Dutch Golden Age
+					</div>
+				</div>
+				<div class="ui bottom attached button">
+					<a href="single-genre.php?id=87">
+						<i class="info circle icon large"></i>
+						See More
+					</a>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img class="ui medium image" src="images/art/works/medium/100030.jpg">
+				</div>
+				<div class="content">
+					<div class="description">
+						Discover the glorious color of the Renaissance
+					</div>
+				</div>
+				<div class="ui bottom attached button">
+					<a href="single-genre.php?id=78">
+						<i class="info circle icon large"></i>
+						See More
+					</a>
+				</div>
 			</div>
 		</div>
-		
-		<div class="column">
-            <div class="ui segment noimgpad">
-				<img class = "ui fluid image" src="images/art/works/medium/126010.jpg">
-				<h4>Appeciate the quiet beauty of the Dutch Golden Age</h4>
-			</div>
-			<div class="ui bottom attached button">
-				<a href="single-genre.php?id=87"><i class="info circle icon"></i>See More</a>
-			</div>
-		</div>
-		
-		<div class="column">
-			<div class="ui segment noimgpad">
-				<img class = "ui fluid image" src="images/art/works/medium/100030.jpg">
-				<h4>Discover the glorious color of the Renaissance</h4>
-			</div>
-			<div class="ui bottom attached button">
-				<a href="single-genre.php?id=78"><i class="info circle icon"></i>See More</a>
-			</div>
-		</div>
-		
     </div>
 </main>
 </body>

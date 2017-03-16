@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="css/semantic.js"></script>
     <script src="js/misc.js"></script>
+    <script src="js/imageHover.js"></script>
     
     <link href="css/semantic.css" rel="stylesheet" >
     <link href="css/icon.css" rel="stylesheet" >
@@ -40,11 +41,11 @@
 		}
 	}
 	
-	function printHeader()
+	function printHeader($pdo)
 	{
 		global $id;
 		$singleGenreHeader = fetchSingleGenreHeader($id);
-		$result = getPDO($singleGenreHeader);
+		$result = getPDO($pdo,$singleGenreHeader);
 		$row = $result->fetch();
 		
 		echo '
@@ -55,19 +56,24 @@
 	}
 	
 	
-	function listPaintings()
+	function listPaintings($pdo)
 	{
 		global $id;
 		$singleGenre = fetchSingleGenre($id);
-		$result = getPDO($singleGenre);
+		$result = getPDO($pdo,$singleGenre);
 		while($row = $result->fetch())
 		{
 			echo'
-				<div class = "column">
-					<div class = "ui segment noimgpad">
+				<div class = "ui column">
+					<div class = "ui card">
 						<a href="single-painting.php?id='.$row["PaintingID"].'">
-							<img class = "ui fluid image" src="images/art/works/square-medium/'.$row['ImageFileName'].'.jpg">
+							<img class = "ui fluid image" name="painting" src="images/art/works/square-medium/'.$row['ImageFileName'].'.jpg">
 						</a>	
+						<a href="favorites.php?type=painting&id='.$row['PaintingID'].'">
+							<button class="fluid ui button">
+								<i class="heart icon"></i>
+							</button>
+						</a>
 					</div>
 				</div>
 			';
@@ -77,29 +83,31 @@
 <body >
     
 <?php 
-	include "includes/header.html"; 
+	include "includes/header.php"; 
 	setID();
 ?>
  
 <div class="ui secondary segment">
 	<?php
-		startConnection();
-		printHeader(); 
+		$pdo = startConnection();
+		printHeader($pdo); 
 	?>
 </div>
    
 <main>
-	<div class="ui stackable six column grid">
-	<div class="row">
-		<div class="sixteen wide column">
-			<h2 class="ui dividing header"> Paintings </h2>
+	<div class="ui container">
+		<div class="ui stackable six column grid">
+		<div class="row">
+			<div class="sixteen wide column">
+				<h2 class="ui dividing header"> Paintings </h2>
+			</div>
 		</div>
-	</div>
-		<?php
-			
-			listPaintings();
-			killDBConnection();
-		?>
+			<?php
+				
+				listPaintings($pdo);
+				killDBConnection($pdo);
+			?>
+		</div>
 	</div>
 </main>
 </body>

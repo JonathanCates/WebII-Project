@@ -3,10 +3,8 @@
 	Holds start and stop connection to the database
 */
 
-	$pdo;
 	function startConnection()
 	{
-		global $pdo;
 		try
 		{
 			$connString = "mysql:host=localhost;dbname=art;charset=utf8";
@@ -15,6 +13,7 @@
 		
 			$pdo = new PDO($connString,$user,$password);
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			return $pdo;
 		}
 		catch (PDOException $e)
 		{
@@ -22,30 +21,27 @@
 		}
 	}
 
-	function getRow($sql)
+	function getRow($pdo, $sql)
 	{
-		global $pdo;
 		$result = $pdo->query($sql);
 		$row = $result->fetch();
 		return $row;
 	}
 
-	function getPDO($sql)
+	function getPDO($pdo, $sql)
 	{
-		global $pdo;
 		$result = $pdo->query($sql);
 		return $result;
 	}
 	
-	function getNext($result)
+	function getNext($pdo)
 	{
-		$row = $result->fetch();
+		$row = $pdo->fetch();
 		return $row;
 	}
 		
-	function killDBConnection()
+	function killDBConnection($pdo)
 	{
-		global $pdo;
 		$pdo=null;
 	}
 

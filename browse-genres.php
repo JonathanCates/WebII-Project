@@ -17,19 +17,21 @@
 	include "includes/db.php";
 	include "includes/sql-statements.php";
 	
-	function printGenres()
+	function printGenres($pdo)
 	{
 		$browseGenres = fetchAllGenres();
-		$result = getPDO($browseGenres);
+		$result = getPDO($pdo, $browseGenres);
 		while($row = $result->fetch())
 		{
 			echo'
-				<div class = "column">
-					<div class = "ui segment noimgpad">
+				<div class = "ui column">
+					<div class = "ui card">
 						<a href="single-genre.php?id='.$row["GenreID"].'">
 							<img class = "ui fluid image" src="images/art/genres/square-medium/'.$row['GenreID'].'.jpg">
-							<h3>'.$row['GenreName'].'</h3>
-						</a>	
+						</a>
+						<div class = "content">
+							<a class = "header" href="single-genre.php?id='.$row["GenreID"].'">'.$row['GenreName'].'</a>
+						</div>
 					</div>
 				</div>
 			';
@@ -38,19 +40,23 @@
 ?>
 <body>
     
-<?php include "includes/header.html"; ?>
+<?php 	include "includes/header.php";  ?>
  
-<div class="genre-banner">
-	<h1 class="ui huge header">Genres</h1>
-</div>  
-    
+<div class="alt-banner-container">
+	<div class="ui inverted segment genre-banner">
+		<h1 class="ui huge header">Genres</h1>
+	</div>  
+</div>
+
 <main>
-	<div class="ui stackable six column grid">
-		<?php 
-			startConnection();
-			printGenres();
-			killDBConnection();
-		?>
+	<div class="ui container">
+		<div class="ui stackable six column grid">
+			<?php 
+				$pdo = startConnection();
+				printGenres($pdo);
+				killDBConnection($pdo);
+			?>
+		</div>
 	</div>
 </main>
 </body>
